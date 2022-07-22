@@ -20,7 +20,8 @@ async function getData(location) {
     return data;
   } catch (error) {
     console.log(error);
-    console.log('working?');
+    const errorBox = document.getElementById('errorBox');
+    errorBox.innerText = 'Big Old Error';
   }
 }
 

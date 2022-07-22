@@ -9,14 +9,17 @@ async function getData(location) {
     );
     const allData = await response.json();
 
+    console.log(allData);
+
     const data = {
-      err: allData.message,
       name: allData.name,
+      cloudCoverage: allData.clouds.all,
       main: allData.main,
       visibility: allData.visibility,
       wind: allData.wind,
       description: allData.weather[0].description,
     };
+
     return data;
   } catch (error) {
     console.log(error);

@@ -7,20 +7,41 @@
   <title>Weather</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&family=Average+Sans&family=Raleway:wght@400;700;900&display=swap" rel="stylesheet">
 
 </head>
 <body>
 
-  <form action="">
-    <label for="location">Location</label>
-    <input type="text" name="location" id="location">
-  </form>
+  <div class="headerBar">
+    <h1>Weather Finder</h1>
+
+    <div class="searchBox">
+      <form action="">
+        <label for="location">Search Location</label>
+        <input type="text" name="location" id="location">
+      </form>
+      <button id="getBtn">Get weather</button>
+      <p id="errorBox"></p>
+
+    </div>
 
 
 
-  <button id="getBtn">Get weather</button>
+  </div>
 
-  <p id="errorBox"></p>
+  <div class="main">
+
+  </div>
+
+  <div class="footer">
+    <p>Footer content here</p>
+  </div>
+
+
+
+
   
 </body>
 </html>

@@ -1,0 +1,116 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* My CSS */
+
+body {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: auto 1fr 30px;
+  background-image: url('cloudsbg.jpeg');
+  background-size: cover; 
+  font-family: 'Raleway', sans-serif;
+}
+
+.headerBar, .searchBox {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.searchBox, input, button {
+  font-size: 1.2rem;
+}
+
+.headerBar {
+  justify-content: space-between;
+  padding: 20px 50px;
+}
+
+.searchBox {
+  gap: 10px;
+}
+
+input {
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px solid white;
+  border-radius: 3px;
+  color: white;
+
+}
+
+input:focus {
+  background-color: rgba(255, 255, 255, 0.119);
+  outline: none;
+}
+
+button {
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px solid white;
+  border-radius: 3px;
+  color: white;
+}
+
+button:hover {
+  background-color: white;
+  color: rgb(33, 137, 216);
+}
+
+h1 {
+  font-size: 3rem;
+  color: white;
+  font-weight: 900;
+}
+
+.main {
+
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}

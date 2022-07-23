@@ -1,3 +1,5 @@
+import './style.css';
+
 const key = '572ce04b970a4b9ed820d19a8cffe3a4';
 const place = document.getElementById('location');
 const getBtn = document.getElementById('getBtn');
@@ -13,6 +15,8 @@ async function getData(location) {
 
     const allDates = [];
 
+    console.log(allData);
+
     allData.list.forEach((item) => {
       if (!allDates.includes(item.dt_txt.slice(0, 10))) {
         allDates.push(item.dt_txt.slice(0, 10));
@@ -24,6 +28,7 @@ async function getData(location) {
     const day2 = [];
     const day3 = [];
     const day4 = [];
+    const cityData = allData.city;
 
     // allData.list.forEach((item) => {
     //   if (item.dt_txt.slice(0, 10) === allDates[0]) {
@@ -34,28 +39,28 @@ async function getData(location) {
     // console.log(day0)
 
     allData.list.forEach((item) => {
-      switch(item.dt_txt.slice(0, 10)) {
+      switch (item.dt_txt.slice(0, 10)) {
         case allDates[0]:
-          day0.push(item)
-          break
+          day0.push(item);
+          break;
         case allDates[1]:
-          day1.push(item)
-          break
+          day1.push(item);
+          break;
         case allDates[2]:
-          day2.push(item)
-          break
+          day2.push(item);
+          break;
         case allDates[3]:
-          day3.push(item)
-          break
+          day3.push(item);
+          break;
         case allDates[4]:
-          day4.push(item)
-          break
+          day4.push(item);
+          break;
         default:
-          break
+          break;
       }
-    })
+    });
 
-    const data = [day0, day1, day2, day3, day4]
+    const data = [day0, day1, day2, day3, day4, cityData];
 
     console.log(data);
 
@@ -78,7 +83,8 @@ async function getData(location) {
 
 async function getWeather() {
   const weatherData = await getData(place.value);
-
 }
 
 getBtn.addEventListener('click', getWeather);
+
+

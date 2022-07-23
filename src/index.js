@@ -1,4 +1,5 @@
 import './style.css';
+import { makeHeader, makeCard, makeDayCard } from './domControl';
 
 const key = '572ce04b970a4b9ed820d19a8cffe3a4';
 const place = document.getElementById('location');
@@ -30,14 +31,6 @@ async function getData(location) {
     const day4 = [];
     const cityData = allData.city;
 
-    // allData.list.forEach((item) => {
-    //   if (item.dt_txt.slice(0, 10) === allDates[0]) {
-    //     day0.push(item);
-    //   }
-    // })
-
-    // console.log(day0)
-
     allData.list.forEach((item) => {
       switch (item.dt_txt.slice(0, 10)) {
         case allDates[0]:
@@ -64,27 +57,57 @@ async function getData(location) {
 
     console.log(data);
 
-    // const data = {
-    //   name: allData.name,
-    //   cloudCoverage: allData.clouds.all,
-    //   main: allData.main,
-    //   visibility: allData.visibility,
-    //   wind: allData.wind,
-    //   description: allData.weather[0].description,
-    // };
-
     return data;
   } catch (error) {
     console.log(error);
-    // const errorBox = document.getElementById('errorBox');
-    // errorBox.innerText = 'Big Old Error';
   }
 }
 
-async function getWeather() {
-  const weatherData = await getData(place.value);
+async function showWeather() {
+  const location = place.value;
+  const data = await getData(location);
+  makeHeader(data[5].name, data[5].country);
+  makeCard(
+    data[0][0].weather[0].main,
+    data[0][0].weather[0].description,
+    data[0][0].main.temp,
+    data[0][0].main.feels_like,
+    data[0][0].wind.speed,
+    data[0][0].wind.gust,
+    data[0][0].wind.deg,
+    data[0][0].main.humidity,
+    data[0][0].clouds.all,
+  );
+
+  for (let i = 1; i < 5; i += 1) {
+
+    let maxTemp = 0;
+    let minTemp = 1000;
+
+    for (let x = 0; x < data[i].length; x+=1) {
+      if (data[i][x].main.temp > maxTemp) {
+        maxTemp = data[i][x].main.temp;
+      }
+
+      if(data[i][x].main.temp < minTemp) {
+        minTemp = data[i][x].main.temp
+      }
+    }
+
+    console.log(maxTemp)
+    console.log(minTemp)
+
+
+    const date = new Date(data[i][4].dt_txt);
+    const summary = data[i][4].weather[0].main;
+
+
+
+    makeDayCard(date, maxTemp, minTemp, summary)
+
+  }
 }
 
-getBtn.addEventListener('click', getWeather);
 
 
+getBtn.addEventListener('click', showWeather);

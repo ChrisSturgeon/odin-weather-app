@@ -47,6 +47,7 @@
     "concat-map": "^0.0.1",
     "confusing-browser-globals": "^1.0.11",
     "cross-spawn": "^7.0.3",
+    "date-fns": "^2.29.1",
     "debug": "^4.3.4",
     "deep-is": "^0.1.4",
     "define-properties": "^1.1.4",

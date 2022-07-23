@@ -53,7 +53,7 @@ body {
   width: 100vw;
   display: grid;
   grid-template-rows: auto 1fr 20px;
-  background-image: url('sunset2.jpeg');
+  background-image: url('vectorbg.jpg');
   background-size: cover; 
   font-family: 'Raleway', sans-serif;
 }
@@ -109,9 +109,49 @@ h1 {
   font-weight: 900;
 }
 
-.main {
-
+#main {
+  color: var(--main-color);
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
+
+#mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+#mainHeader button {
+  align-self: flex-end;
+}
+
+#mainBody {
+  padding: 20px 5vw;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 30% 1fr;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.currentStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+
 
 .footer {
   display: flex;
@@ -135,3 +175,41 @@ a:visited {
 }
 
 
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 200,
+  'opsz' 48
+}
+
+
+.logoBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dayCards {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 10vw;
+}
+
+.dayCard {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dayLogo span {
+  font-size: 7vw;
+}
+
+.bigIcon span {
+  font-size: 20vw;
+}

@@ -44,12 +44,16 @@ table {
 
 /* My CSS */
 
+:root {
+  --main-color: rgb(255, 255, 255);
+}
+
 body {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: auto 1fr 30px;
-  background-image: url('cloudsbg.jpeg');
+  grid-template-rows: auto 1fr 20px;
+  background-image: url('sunset2.jpeg');
   background-size: cover; 
   font-family: 'Raleway', sans-serif;
 }
@@ -57,7 +61,7 @@ body {
 .headerBar, .searchBox {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--main-color);
 }
 
 .searchBox, input, button {
@@ -75,14 +79,13 @@ body {
 
 input {
   background-color: rgba(255, 255, 255, 0);
-  border: 2px solid white;
-  border-radius: 3px;
-  color: white;
-
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  color: var(--main-color);
 }
 
 input:focus {
-  background-color: rgba(255, 255, 255, 0.119);
+  background-color: rgba(255, 255, 255, 0.212);
   outline: none;
 }
 
@@ -90,17 +93,18 @@ button {
   background-color: rgba(255, 255, 255, 0);
   border: 2px solid white;
   border-radius: 3px;
-  color: white;
+  color: var(--main-color);
+
 }
 
 button:hover {
-  background-color: white;
-  color: rgb(33, 137, 216);
+  background-color: var(--main-color);
+  color: rgb(17, 62, 96);
 }
 
 h1 {
   font-size: 3rem;
-  color: white;
+  color: var(--main-color);
   font-weight: 900;
 }
 
@@ -112,5 +116,21 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(10px);
+  color: var(--main-color);
+  font-size: 0.75rem;
 }
+
+a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--main-color);
+}
+
+

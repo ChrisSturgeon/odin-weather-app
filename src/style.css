@@ -210,6 +210,12 @@ a:visited {
   font-size: 7vw;
 }
 
+.bigIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .bigIcon span {
   font-size: 20vw;
 }

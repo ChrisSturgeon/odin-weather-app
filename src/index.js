@@ -15,9 +15,6 @@ async function getData(location) {
     // Make master list of dates
 
     const allDates = [];
-
-    console.log(allData);
-
     allData.list.forEach((item) => {
       if (!allDates.includes(item.dt_txt.slice(0, 10))) {
         allDates.push(item.dt_txt.slice(0, 10));
@@ -52,19 +49,18 @@ async function getData(location) {
           break;
       }
     });
-
     const data = [day0, day1, day2, day3, day4, cityData];
-
-    console.log(data);
-
     return data;
   } catch (error) {
     console.log(error);
   }
 }
 
-async function showWeather() {
-  const location = place.value;
+async function showWeather(location) {
+  // const location = place.value;
+  window.localStorage.setItem('lastSearched', location);
+
+
   const data = await getData(location);
   makeHeader(data[5].name, data[5].country);
   makeCard(
@@ -76,38 +72,53 @@ async function showWeather() {
     data[0][0].wind.gust,
     data[0][0].wind.deg,
     data[0][0].main.humidity,
-    data[0][0].clouds.all,
+    data[0][0].clouds.all
   );
 
   for (let i = 1; i < 5; i += 1) {
-
     let maxTemp = 0;
     let minTemp = 1000;
 
-    for (let x = 0; x < data[i].length; x+=1) {
+    for (let x = 0; x < data[i].length; x += 1) {
       if (data[i][x].main.temp > maxTemp) {
         maxTemp = data[i][x].main.temp;
       }
 
-      if(data[i][x].main.temp < minTemp) {
-        minTemp = data[i][x].main.temp
+      if (data[i][x].main.temp < minTemp) {
+        minTemp = data[i][x].main.temp;
       }
     }
 
-    console.log(maxTemp)
-    console.log(minTemp)
-
+    console.log(maxTemp);
+    console.log(minTemp);
 
     const date = new Date(data[i][4].dt_txt);
     const summary = data[i][4].weather[0].main;
 
-
-
-    makeDayCard(date, maxTemp, minTemp, summary)
-
+    makeDayCard(date, maxTemp, minTemp, summary);
   }
 }
 
+function checkLast() {
+  if (window.localStorage.getItem('lastSearched')) {
+    const lastSearch = window.localStorage.getItem('lastSearched');
+    showWeather(lastSearch);
+  } else {
+    showWeather('London');
+  }
+}
+
+function searchWeather() {
+  const location = place.value;
+  document.getElementById('mainHeader').innerHTML = ''
+  const mainBody = document.getElementById('mainBody')
+  mainBody.innerHTML = ''
+
+  showWeather(location);
+
+}
 
 
-getBtn.addEventListener('click', showWeather);
+getBtn.addEventListener('click', searchWeather);
+
+checkLast();

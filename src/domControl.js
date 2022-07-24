@@ -7,6 +7,13 @@ export function makeHeader(place, country) {
   mainHeader.appendChild(location);
 }
 
+function clearMain() {
+  document.getElementById('main').innerHTML = ''
+  document.getElementById('card').innerHMTL = ''
+ 
+
+}
+
 export function makeCard(
   current,
   description,
@@ -18,12 +25,31 @@ export function makeCard(
   humidity,
   cloudCoverage
 ) {
+  
   const body = document.getElementById('mainBody');
+
   const card = document.createElement('div');
+  card.setAttribute('id', 'card')
   card.classList.add('card');
 
   const currentLogo = document.createElement('div');
   currentLogo.classList.add('bigIcon')
+
+  // if (current === 'Clouds') {
+  //   currentLogo.innerHTML =
+  //   '<span class="material-symbols-outlined">cloud</span>';
+  // } else if (current === 'Clear') {
+  //   currentLogo.innerHTML =
+  //   '<span class="material-symbols-outlined">clear_day</span>';
+  // } else if (current === 'Rain') {
+  //   currentLogo.innerHTML =
+  //   '<span class="material-symbols-outlined">rainy</span>';
+  // } else if (current === 'Snowing') {
+  //   currentLogo.innerHTML =
+  //   '<span class="material-symbols-outlined">cloudy_snowing</span>';
+  // } else {
+  //   currentLogo.innerHTML = current;
+  // }
 
 
   switch (current) {
@@ -128,24 +154,24 @@ export function makeCard(
 }
 
 export function makeDayCard(date, maxTemp, minTemp, weather) {
-  const card = document.createElement('div');
-  card.classList.add('dayCard');
+  const dayCard = document.createElement('div');
+  dayCard.classList.add('dayCard');
 
   const dateBar = document.createElement('div');
   dateBar.innerText = format(date, 'E do');
-  card.appendChild(dateBar);
+  dayCard.appendChild(dateBar);
 
   const maxTemperature = document.createElement('div');
   maxTemperature.innerHTML = `${Math.round(maxTemp - 273)}&#176;C max`;
-  card.appendChild(maxTemperature);
+  dayCard.appendChild(maxTemperature);
 
   const minTemperature = document.createElement('div');
   minTemperature.innerHTML = `${Math.round(minTemp - 273)}&#176;C min`;
-  card.appendChild(minTemperature);
+  dayCard.appendChild(minTemperature);
 
   const logo = document.createElement('div');
   logo.classList.add('dayLogo');
-  card.appendChild(logo);
+  dayCard.appendChild(logo);
 
   switch (weather) {
     case 'Clouds':
@@ -170,8 +196,10 @@ export function makeDayCard(date, maxTemp, minTemp, weather) {
       break;
   }
 
-
-
   const box = document.getElementById('dayCards');
-  box.appendChild(card);
+  box.appendChild(dayCard);
 }
+
+
+
+

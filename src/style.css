@@ -45,7 +45,7 @@ table {
 /* My CSS */
 
 :root {
-  --main-color: rgb(255, 255, 255);
+  --main-color: rgba(255, 255, 255, 0.897);
 }
 
 body {
@@ -53,7 +53,8 @@ body {
   width: 100vw;
   display: grid;
   grid-template-rows: auto 1fr 20px;
-  background-image: url('vectorbg.jpg');
+  background-image: url('vectorbg3.jpeg');
+  backdrop-filter: brightness(50%);
   background-size: cover; 
   font-family: 'Raleway', sans-serif;
 }
@@ -68,9 +69,11 @@ body {
   font-size: 1.2rem;
 }
 
+
 .headerBar {
   justify-content: space-between;
   padding: 20px 50px;
+  margin-bottom: 10px;
 }
 
 .searchBox {
@@ -101,10 +104,11 @@ button {
 button:hover {
   background-color: var(--main-color);
   color: rgb(17, 62, 96);
+  cursor: pointer;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 3.5vw;
   color: var(--main-color);
   font-weight: 900;
 }
@@ -140,8 +144,9 @@ h2 {
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 30% 1fr;
+  gap: 1vw;
 
-  font-size: 1.5rem;
+  font-size: 1.6vw;
   font-weight: 700;
 }
 
@@ -149,6 +154,7 @@ h2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  /* text-align: center; */
 }
 
 
@@ -217,5 +223,14 @@ a:visited {
 }
 
 .bigIcon span {
-  font-size: 20vw;
+  font-size: 18vw;
+}
+
+.windArrow {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.unitsBtn {
+  font-size: 1.3vw;
 }

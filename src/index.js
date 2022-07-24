@@ -1,14 +1,18 @@
 import './style.css';
-import { makeHeader, makeCard, makeDayCard } from './domControl';
+import { makeHeader, makeCard, makeDayCard, resetCard, showError, checkMetric } from './domControl';
 
-const key = '572ce04b970a4b9ed820d19a8cffe3a4';
+const APIkey = '572ce04b970a4b9ed820d19a8cffe3a4';
 const place = document.getElementById('location');
 const getBtn = document.getElementById('getBtn');
+const unitsBtn = document.getElementById('unitsBtn');
+
+
+let units = 'metric';
 
 async function getData(location) {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${key}`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${APIkey}`
     );
     const allData = await response.json();
 
@@ -53,13 +57,12 @@ async function getData(location) {
     return data;
   } catch (error) {
     console.log(error);
+    showError();
   }
 }
 
 async function showWeather(location) {
-  // const location = place.value;
   window.localStorage.setItem('lastSearched', location);
-
 
   const data = await getData(location);
   makeHeader(data[5].name, data[5].country);
@@ -75,6 +78,27 @@ async function showWeather(location) {
     data[0][0].clouds.all
   );
 
+  // Make Today Card
+
+  let todayMaxTemp = 0;
+  let todayMinTemp = 1000;
+
+  for (let i = 0; i < data[0].length; i += 1) {
+    if (data[0][i].main.temp > todayMaxTemp) {
+      todayMaxTemp = data[0][i].main.temp;
+    }
+    if (data[0][i].main.temp < todayMinTemp) {
+      todayMinTemp = data[0][i].main.temp;
+    }
+  }
+  makeDayCard(
+    Date.now(),
+    todayMaxTemp,
+    todayMinTemp,
+    data[0][0].weather[0].main
+  );
+
+  // Make dayCard for remaining 4 days
   for (let i = 1; i < 5; i += 1) {
     let maxTemp = 0;
     let minTemp = 1000;
@@ -89,9 +113,6 @@ async function showWeather(location) {
       }
     }
 
-    console.log(maxTemp);
-    console.log(minTemp);
-
     const date = new Date(data[i][4].dt_txt);
     const summary = data[i][4].weather[0].main;
 
@@ -99,6 +120,7 @@ async function showWeather(location) {
   }
 }
 
+// Displays last search result if user has visited before
 function checkLast() {
   if (window.localStorage.getItem('lastSearched')) {
     const lastSearch = window.localStorage.getItem('lastSearched');
@@ -108,17 +130,52 @@ function checkLast() {
   }
 }
 
+function checkUnits() {
+  if (window.localStorage.getItem('units')) {
+    units = window.localStorage.getItem('units')
+  } else {
+    window.localStorage.setItem('units', 'metric')
+  }
+}
+
+function switchUnits() {
+  if (window.localStorage.getItem('units') === 'metric') {
+    window.localStorage.setItem('units', 'imperial');
+  } else {
+    window.localStorage.setItem('units', 'metric');
+  }
+
+  const location = localStorage.getItem('lastSearched');
+  console.log(location)
+  resetCard();
+  showWeather(location)
+}
+
 function searchWeather() {
   const location = place.value;
-  document.getElementById('mainHeader').innerHTML = ''
-  const mainBody = document.getElementById('mainBody')
-  mainBody.innerHTML = ''
-
+  resetCard();
   showWeather(location);
-
 }
+
+// Event listeners
+place.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    resetCard();
+    const location = place.value;
+    showWeather(location);
+  }
+});
 
 
 getBtn.addEventListener('click', searchWeather);
+unitsBtn.addEventListener('click', switchUnits)
 
+
+// Run on load
+
+checkUnits();
 checkLast();
+
+
+

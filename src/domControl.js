@@ -1,4 +1,12 @@
-import { format } from 'date-fns'
+import { format } from 'date-fns';
+
+export function checkMetric() {
+  if (window.localStorage.getItem('units') === 'metric') {
+    return true;
+  }
+  return false;
+}
+
 
 export function makeHeader(place, country) {
   const mainHeader = document.getElementById('mainHeader');
@@ -7,11 +15,12 @@ export function makeHeader(place, country) {
   mainHeader.appendChild(location);
 }
 
-function clearMain() {
-  document.getElementById('main').innerHTML = ''
-  document.getElementById('card').innerHMTL = ''
- 
+function tempMetric(temp) {
+  return Math.round(temp - 273);
+}
 
+function tempImperial(temp) {
+  return Math.round((9 / 5) * (temp - 273) + 32);
 }
 
 export function makeCard(
@@ -25,32 +34,14 @@ export function makeCard(
   humidity,
   cloudCoverage
 ) {
-  
   const body = document.getElementById('mainBody');
 
   const card = document.createElement('div');
-  card.setAttribute('id', 'card')
+  card.setAttribute('id', 'card');
   card.classList.add('card');
 
   const currentLogo = document.createElement('div');
-  currentLogo.classList.add('bigIcon')
-
-  // if (current === 'Clouds') {
-  //   currentLogo.innerHTML =
-  //   '<span class="material-symbols-outlined">cloud</span>';
-  // } else if (current === 'Clear') {
-  //   currentLogo.innerHTML =
-  //   '<span class="material-symbols-outlined">clear_day</span>';
-  // } else if (current === 'Rain') {
-  //   currentLogo.innerHTML =
-  //   '<span class="material-symbols-outlined">rainy</span>';
-  // } else if (current === 'Snowing') {
-  //   currentLogo.innerHTML =
-  //   '<span class="material-symbols-outlined">cloudy_snowing</span>';
-  // } else {
-  //   currentLogo.innerHTML = current;
-  // }
-
+  currentLogo.classList.add('bigIcon');
 
   switch (current) {
     case 'Clouds':
@@ -87,7 +78,7 @@ export function makeCard(
   currentStatsBox.appendChild(currentStats);
 
   const descriptionLabel = document.createElement('div');
-  descriptionLabel.textContent = 'Current weather:';
+  descriptionLabel.textContent = 'Current Weather:';
   currentStats.appendChild(descriptionLabel);
 
   const descriptionText = document.createElement('div');
@@ -100,34 +91,59 @@ export function makeCard(
   currentStats.appendChild(tempLabel);
 
   const tempText = document.createElement('div');
-  tempText.innerHTML = `${Math.round(temperature - 273)}&#176;C`;
+
+  if (checkMetric()) {
+    tempText.innerHTML = `${tempMetric(feelsLike)}&#176;C`;
+  } else {
+    tempText.innerHTML = `${tempImperial(feelsLike)}&#176;F`;
+  }
+
   currentStats.appendChild(tempText);
 
   const feelsLabel = document.createElement('div');
-  feelsLabel.textContent = 'Feels like:';
+  feelsLabel.textContent = 'Feels Like:';
   currentStats.appendChild(feelsLabel);
 
   const feelsText = document.createElement('div');
-  feelsText.innerHTML = `${Math.round(feelsLike - 273)}&#176;C`;
+
+  if (checkMetric()) {
+    feelsText.innerHTML = `${tempMetric(feelsLike)}&#176;C`;
+  } else {
+    feelsText.innerHTML = `${tempImperial(feelsLike)}&#176;F`;
+  }
+
   currentStats.appendChild(feelsText);
 
   const windSpeedLabel = document.createElement('div');
-  windSpeedLabel.textContent = 'Wind speed:';
+  windSpeedLabel.textContent = 'Wind Speed:';
   currentStats.appendChild(windSpeedLabel);
 
   const windSpeedText = document.createElement('div');
-  windSpeedText.textContent = `${Math.round(
-    windSpeed * 2.237
-  )} mph (gusting ${Math.round(windGust * 2.237)} mph)`;
+
+  if (checkMetric()) {
+    windSpeedText.textContent = `${Math.round(
+      windSpeed * 3.6
+    )} kph (gusting ${Math.round(windGust * 3.6)} kph)`;
+  } else {
+    windSpeedText.textContent = `${Math.round(
+      windSpeed * 2.237
+    )} mph (gusting ${Math.round(windGust * 2.237)} mph)`;
+  }
+
   currentStats.appendChild(windSpeedText);
 
   const windDirectionLabel = document.createElement('div');
-  windDirectionLabel.textContent = 'Wind direction:';
+  windDirectionLabel.textContent = 'Wind Direction:';
   currentStats.appendChild(windDirectionLabel);
 
-  const windDirectionArrow = document.createElement('div');
-  windDirectionArrow.innerHTML = `${windDirection}&#176;`;
-  currentStats.appendChild(windDirectionArrow);
+  const windDirectionBox = document.createElement('div');
+  windDirectionBox.classList.add('windArrow');
+
+  const windArrow = document.createElement('div');
+  windArrow.innerHTML = '&#8595;';
+  windArrow.style.transform = `rotate(${windDirection}deg)`;
+  windDirectionBox.appendChild(windArrow);
+  currentStats.appendChild(windDirectionBox);
 
   const humidityLabel = document.createElement('div');
   humidityLabel.textContent = 'Humidity:';
@@ -158,15 +174,34 @@ export function makeDayCard(date, maxTemp, minTemp, weather) {
   dayCard.classList.add('dayCard');
 
   const dateBar = document.createElement('div');
+
+  if (date === 'Today') {
+    dateBar.innerText = 'Today';
+  } else {
+    dateBar.innerText = format(date, 'E do');
+  }
+
   dateBar.innerText = format(date, 'E do');
   dayCard.appendChild(dateBar);
 
   const maxTemperature = document.createElement('div');
-  maxTemperature.innerHTML = `${Math.round(maxTemp - 273)}&#176;C max`;
+
+  if (checkMetric()) {
+    maxTemperature.innerHTML = `${tempMetric(maxTemp)}&#176;C max`;
+  } else {
+    maxTemperature.innerHTML = `${tempImperial(maxTemp)}&#176;F max`;
+  }
+
   dayCard.appendChild(maxTemperature);
 
   const minTemperature = document.createElement('div');
-  minTemperature.innerHTML = `${Math.round(minTemp - 273)}&#176;C min`;
+
+  if (checkMetric()) {
+    minTemperature.innerHTML = `${tempMetric(minTemp)}&#176;C min `;
+  } else {
+    minTemperature.innerHTML = `${tempImperial(minTemp)}&#176;F min`;
+  }
+
   dayCard.appendChild(minTemperature);
 
   const logo = document.createElement('div');
@@ -175,16 +210,14 @@ export function makeDayCard(date, maxTemp, minTemp, weather) {
 
   switch (weather) {
     case 'Clouds':
-      logo.innerHTML =
-        '<span class="material-symbols-outlined">cloud</span>';
+      logo.innerHTML = '<span class="material-symbols-outlined">cloud</span>';
       break;
     case 'Clear':
       logo.innerHTML =
         '<span class="material-symbols-outlined">clear_day</span>';
       break;
     case 'Rain':
-      logo.innerHTML =
-        '<span class="material-symbols-outlined">rainy</span>';
+      logo.innerHTML = '<span class="material-symbols-outlined">rainy</span>';
       break;
     case 'Snowing':
       logo.innerHTML =
@@ -200,6 +233,19 @@ export function makeDayCard(date, maxTemp, minTemp, weather) {
   box.appendChild(dayCard);
 }
 
+export function resetCard() {
+  document.getElementById('mainHeader').innerHTML = '';
+  const mainBody = document.getElementById('mainBody');
+  mainBody.innerHTML = '';
+}
 
+export function showError() {
+  resetCard();
 
+  const mainBody = document.getElementById('mainBody');
 
+  const errorMsg = document.createElement('div');
+  errorMsg.textContent =
+    'Error: location not found. Please check spelling and search again, or try searching with format "location, country-code".';
+  mainBody.appendChild(errorMsg);
+}

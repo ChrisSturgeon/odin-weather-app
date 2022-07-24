@@ -118,6 +118,10 @@ async function showWeather(location) {
 
     makeDayCard(date, maxTemp, minTemp, summary);
   }
+
+  place.value = '';
+
+
 }
 
 // Displays last search result if user has visited before

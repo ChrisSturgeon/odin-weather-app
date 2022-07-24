@@ -54,7 +54,7 @@ body {
   display: grid;
   grid-template-rows: auto 1fr 20px;
   background-image: url('vectorbg3.jpeg');
-  backdrop-filter: brightness(50%);
+  backdrop-filter: brightness(55%);
   background-size: cover; 
   font-family: 'Raleway', sans-serif;
 }
@@ -137,7 +137,7 @@ h2 {
 }
 
 #mainBody {
-  padding: 20px 5vw;
+  padding: 20px 10vw;
 }
 
 .card {

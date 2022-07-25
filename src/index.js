@@ -1,14 +1,19 @@
 import './style.css';
-import { makeHeader, makeCard, makeDayCard, resetCard, showError, checkMetric } from './domControl';
+import {
+  makeHeader,
+  showCurrentWeather,
+  makeDayCard,
+  clearResults,
+  showError,
+} from './domControl';
 
 const APIkey = '572ce04b970a4b9ed820d19a8cffe3a4';
 const place = document.getElementById('location');
 const getBtn = document.getElementById('getBtn');
 const unitsBtn = document.getElementById('unitsBtn');
-
-
 let units = 'metric';
 
+// Fetches data from API and returns array for each day, along with array for location data.
 async function getData(location) {
   try {
     const response = await fetch(
@@ -17,7 +22,6 @@ async function getData(location) {
     const allData = await response.json();
 
     // Make master list of dates
-
     const allDates = [];
     allData.list.forEach((item) => {
       if (!allDates.includes(item.dt_txt.slice(0, 10))) {
@@ -61,12 +65,18 @@ async function getData(location) {
   }
 }
 
-async function showWeather(location) {
-  window.localStorage.setItem('lastSearched', location);
+// Stores serach term in localStore for reference later
+function storeSearchLocation(site) {
+  window.localStorage.setItem('lastSearched', site);
+}
 
+// Calls DOM functions with data to display search results
+async function showWeather(location) {
+  storeSearchLocation(location);
   const data = await getData(location);
   makeHeader(data[5].name, data[5].country);
-  makeCard(
+
+  showCurrentWeather(
     data[0][0].weather[0].main,
     data[0][0].weather[0].description,
     data[0][0].main.temp,
@@ -78,8 +88,7 @@ async function showWeather(location) {
     data[0][0].clouds.all
   );
 
-  // Make Today Card
-
+  // Makes today card
   let todayMaxTemp = 0;
   let todayMinTemp = 1000;
 
@@ -120,8 +129,6 @@ async function showWeather(location) {
   }
 
   place.value = '';
-
-
 }
 
 // Displays last search result if user has visited before
@@ -134,14 +141,16 @@ function checkLast() {
   }
 }
 
+// Checks if user has their preference on units before
 function checkUnits() {
   if (window.localStorage.getItem('units')) {
-    units = window.localStorage.getItem('units')
+    units = window.localStorage.getItem('units');
   } else {
-    window.localStorage.setItem('units', 'metric')
+    window.localStorage.setItem('units', 'metric');
   }
 }
 
+// Updates user preference on units and re-loads results with new units.
 function switchUnits() {
   if (window.localStorage.getItem('units') === 'metric') {
     window.localStorage.setItem('units', 'imperial');
@@ -150,14 +159,13 @@ function switchUnits() {
   }
 
   const location = localStorage.getItem('lastSearched');
-  console.log(location)
-  resetCard();
-  showWeather(location)
+  clearResults();
+  showWeather(location);
 }
 
 function searchWeather() {
   const location = place.value;
-  resetCard();
+  clearResults();
   showWeather(location);
 }
 
@@ -165,21 +173,15 @@ function searchWeather() {
 place.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
-    resetCard();
+    clearResults();
     const location = place.value;
     showWeather(location);
   }
 });
 
-
 getBtn.addEventListener('click', searchWeather);
-unitsBtn.addEventListener('click', switchUnits)
-
+unitsBtn.addEventListener('click', switchUnits);
 
 // Run on load
-
 checkUnits();
 checkLast();
-
-
-

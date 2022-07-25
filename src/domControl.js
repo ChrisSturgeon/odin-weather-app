@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+// Checks if user preference is metric or imperial units
 export function checkMetric() {
   if (window.localStorage.getItem('units') === 'metric') {
     return true;
@@ -7,7 +8,7 @@ export function checkMetric() {
   return false;
 }
 
-
+// Creates location header bar
 export function makeHeader(place, country) {
   const mainHeader = document.getElementById('mainHeader');
   const location = document.createElement('h2');
@@ -15,15 +16,18 @@ export function makeHeader(place, country) {
   mainHeader.appendChild(location);
 }
 
+// Converts Kelvin to Celcius
 function tempMetric(temp) {
   return Math.round(temp - 273);
 }
 
+// Converts Kelvin to Farenheiht
 function tempImperial(temp) {
   return Math.round((9 / 5) * (temp - 273) + 32);
 }
 
-export function makeCard(
+// Displays upper portion of page with current weather information
+export function showCurrentWeather(
   current,
   description,
   temperature,
@@ -107,9 +111,9 @@ export function makeCard(
   const feelsText = document.createElement('div');
 
   if (checkMetric()) {
-    feelsText.innerHTML = `${tempMetric(feelsLike)}&#176;C`;
+    feelsText.innerHTML = `${tempMetric(temperature)}&#176;C`;
   } else {
-    feelsText.innerHTML = `${tempImperial(feelsLike)}&#176;F`;
+    feelsText.innerHTML = `${tempImperial(temperature)}&#176;F`;
   }
 
   currentStats.appendChild(feelsText);
@@ -169,6 +173,7 @@ export function makeCard(
   body.appendChild(card);
 }
 
+// Creates smaller card for each day with date, min/max temp and weather symbol (at midday)
 export function makeDayCard(date, maxTemp, minTemp, weather) {
   const dayCard = document.createElement('div');
   dayCard.classList.add('dayCard');
@@ -233,17 +238,17 @@ export function makeDayCard(date, maxTemp, minTemp, weather) {
   box.appendChild(dayCard);
 }
 
-export function resetCard() {
+// Clears main body of page
+export function clearResults() {
   document.getElementById('mainHeader').innerHTML = '';
   const mainBody = document.getElementById('mainBody');
   mainBody.innerHTML = '';
 }
 
+// Shows error msg on page if API cannot find requested location
 export function showError() {
-  resetCard();
-
+  clearResults();
   const mainBody = document.getElementById('mainBody');
-
   const errorMsg = document.createElement('div');
   errorMsg.textContent =
     'Error: location not found. Please check spelling and search again, or try searching with format "location, country-code".';

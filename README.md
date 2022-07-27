@@ -1,9 +1,7 @@
 # odin-weather-app
 
-The weather app project from The Odin Project. Try it here:
+The weather app project from The Odin Project.
 
-https://kungfucabbage.github.io/odin-weather-app/
+View it <a href="https://chrissturgeon.github.io/odin-weather-app/"> here.</a>
 
-Project spec:
-
-https://www.theodinproject.com/lessons/node-path-javascript-weather-app
+Project spec <a href="https://www.theodinproject.com/lessons/node-path-javascript-weather-app">here</a>
